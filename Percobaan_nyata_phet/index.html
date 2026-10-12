@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Laporan Praktikum: Baterai dan Nyala Lampu</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#f1f5ea; --paper:#ffffff; --text:#22301f; --muted:#5a6d55;
+  --head:#4a7a38; --head-text:#ffffff; --th:#c9e2b3; --line:#6f9a5c; --soft:#9cc088;
+  --field:#fbfdf8; --drop:#eef6e6; --shadow:0 4px 14px rgba(60,100,50,.15);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#121a12; --paper:#1b261b; --text:#e8f1e5; --muted:#a9bfa4;
+    --head:#5f9a4a; --head-text:#0f1a0e; --th:#33513a; --line:#5a8a52; --soft:#44704a;
+    --field:#142014; --drop:#223322; --shadow:0 4px 14px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#121a12; --paper:#1b261b; --text:#e8f1e5; --muted:#a9bfa4;
+  --head:#5f9a4a; --head-text:#0f1a0e; --th:#33513a; --line:#5a8a52; --soft:#44704a;
+  --field:#142014; --drop:#223322; --shadow:0 4px 14px rgba(0,0,0,.35);
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);line-height:1.6;
+  font-family:"Trebuchet MS","Segoe UI",system-ui,-apple-system,Arial,sans-serif}
+.page{max-width:900px;margin:0 auto;padding:20px 14px 44px}
+#sheet{background:var(--paper);border-radius:22px;padding:28px;box-shadow:var(--shadow)}
+.id{display:grid;grid-template-columns:2fr 1fr;gap:12px;margin-bottom:22px}
+label.lb{display:block;font-weight:700;font-size:.9rem;color:var(--muted);margin-bottom:4px}
+input[type=text],textarea,select{width:100%;font:inherit;color:var(--text);background:var(--field);
+  border:2px solid var(--soft);border-radius:10px;padding:8px 12px;outline:none}
+input[type=text]:focus,textarea:focus,select:focus{border-color:var(--head);box-shadow:0 0 0 3px color-mix(in srgb,var(--head) 30%,transparent)}
+textarea{min-height:90px;resize:vertical}
+.sec{display:inline-block;background:var(--head);color:var(--head-text);font-weight:800;font-size:1.1rem;
+  padding:9px 26px;border-radius:10px;border:2.5px dashed var(--soft);margin:26px 0 14px}
+.sec.first{margin-top:4px}
+h3{font-size:1rem;margin:18px 0 6px}
+ul,ol{margin:0 0 6px;padding-left:24px}
+.tbl{width:100%;border-collapse:separate;border-spacing:0;border:2px solid var(--line);border-radius:12px;overflow:hidden;margin:10px 0 16px}
+.tbl th{background:var(--th);font-weight:800;padding:12px;text-align:center}
+.tbl td{padding:10px;border-top:2px solid var(--line);vertical-align:middle}
+.tbl td+td,.tbl th+th{border-left:2px solid var(--line)}
+.tbl td.n{text-align:center;font-weight:800;font-size:1.2rem;width:110px}
+.upload{background:var(--drop);border:2.5px dashed var(--soft);border-radius:16px;padding:14px 16px;margin:12px 0 18px}
+.upload>b{display:block;margin-bottom:8px}
+.pick{display:inline-block;background:var(--head);color:var(--head-text);font-weight:700;border-radius:999px;padding:9px 20px;cursor:pointer}
+.pick input{position:absolute;opacity:0;width:1px;height:1px}
+.pick:focus-within{outline:3px solid var(--text);outline-offset:2px}
+.file-name{margin-left:10px;font-size:.85rem;color:var(--muted)}
+.photo{margin-top:12px}
+.photo img{display:block;max-width:100%;max-height:340px;border-radius:12px;border:2px solid var(--line);object-fit:contain;background:#fff}
+.q{margin:0 0 14px}
+.q p{margin:0 0 6px;font-weight:700}
+.concl{margin:0 0 14px}
+.concl p{margin:0 0 6px}
+.actions{display:flex;flex-direction:column;align-items:center;gap:10px;margin-top:28px}
+.btn{background:var(--head);color:var(--head-text);border:0;border-radius:999px;font:inherit;font-weight:800;
+  font-size:1.2rem;padding:16px 36px;cursor:pointer;width:min(100%,440px);box-shadow:var(--shadow)}
+.btn[disabled]{opacity:.7;cursor:wait}
+.btn:focus-visible,.alt:focus-visible{outline:3px solid var(--text);outline-offset:3px}
+.alt{background:none;border:0;color:var(--muted);font:inherit;font-size:.85rem;text-decoration:underline;cursor:pointer}
+#msg{margin:0;font-size:.9rem;color:var(--muted);text-align:center;min-height:1.3em}
+.ans{white-space:pre-wrap;word-break:break-word}
+@media (max-width:700px){
+  #sheet{padding:16px;border-radius:18px}
+  .id{grid-template-columns:1fr}
+  .tbl,.tbl tbody,.tbl tr,.tbl td{display:block;width:100%}
+  .tbl{border:0;border-radius:0}
+  .tbl thead{display:none}
+  .tbl tr{border:2px solid var(--line);border-radius:12px;margin-bottom:12px;overflow:hidden}
+  .tbl td,.tbl td+td{border:0;border-top:2px solid var(--line);width:100%!important;text-align:left}
+  .tbl td.n{border-top:0;background:var(--th);font-size:1.05rem;text-align:left}
+  .tbl td.n::before{content:"Jumlah baterai: "}
+  .tbl td[data-l]::before{content:attr(data-l);display:block;font-weight:700;font-size:.85rem;color:var(--muted);margin-bottom:4px}
+}
+@page{size:A4 portrait;margin:10mm}
+@media print{
+  :root{--bg:#fff;--paper:#fff;--text:#000;--muted:#444;--field:#fff;--drop:#fff;--shadow:none}
+  body{background:#fff}
+  .page{padding:0;max-width:none}
+  #sheet{box-shadow:none;padding:0}
+  .no-print{display:none!important}
+  .upload{border-style:solid}
+  .tbl tr,.photo,.q,.concl{break-inside:avoid}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+<main class="page">
+<div id="sheet">
+  <div class="id">
+    <div><label class="lb" for="nama">Nama</label><input type="text" id="nama" placeholder="Tulis namamu" autocomplete="name"></div>
+    <div><label class="lb" for="kelas">Kelas</label><input type="text" id="kelas" placeholder="Contoh: 6A" autocomplete="off"></div>
+  </div>
+
+  <div class="sec first">Tahap 3. Penyelidikan Nyata</div>
+  <p>Sekarang lakukan percobaan yang sama menggunakan alat sederhana di rumah.</p>
+  <h3>Alat dan Bahan</h3>
+  <ul><li>1–3 baterai AA</li><li>Lampu LED kecil atau lampu bohlam mini</li><li>Kabel penghubung</li></ul>
+  <h3>Langkah Kerja</h3>
+  <ol>
+    <li>Susun rangkaian menggunakan 1 baterai, kemudian amati nyala lampu.</li>
+    <li>Tambahkan menjadi 2 baterai, lalu amati kembali.</li>
+    <li>Tambahkan menjadi 3 baterai, kemudian amati perubahan yang terjadi.</li>
+    <li>Catat hasil pengamatan pada tabel berikut.</li>
+  </ol>
+  <table class="tbl">
+    <thead><tr><th>Jumlah Baterai</th><th>Hasil Pengamatan</th></tr></thead>
+    <tbody id="rows1"></tbody>
+  </table>
+  <div class="upload" id="up1"></div>
+
+  <div class="sec">Tahap 4. Analisis</div>
+  <p>Bandingkan hasil simulasi dan percobaan nyata pada tabel berikut.</p>
+  <table class="tbl">
+    <thead><tr><th>Jumlah Baterai</th><th>Hasil Pengamatan melalui Virtual Simulation (PhET)</th><th>Hasil Pengamatan melalui Praktikum Nyata</th></tr></thead>
+    <tbody id="rows2"></tbody>
+  </table>
+  <div class="upload" id="up2"></div>
+
+  <h3>Jawablah pertanyaan berikut:</h3>
+  <div id="qs"></div>
+
+  <h3>Kesimpulan</h3>
+  <p>Lengkapilah kalimat berikut.</p>
+  <div class="concl"><p>Semakin besar tegangan (jumlah baterai bertambah), maka</p><textarea id="k1" aria-label="Kesimpulan 1" placeholder="Lanjutkan kalimatnya di sini…"></textarea></div>
+  <div class="concl"><p>Berdasarkan penyelidikan yang telah dilakukan, saya menyimpulkan bahwa salah satu faktor yang menyebabkan terang/redupnya nyala lampu adalah</p><textarea id="k2" aria-label="Kesimpulan 2" placeholder="Lanjutkan kalimatnya di sini…"></textarea></div>
+
+  <div class="actions no-print">
+    <button class="btn" id="unduh" type="button">Unduh Laporan Praktikum (PDF)</button>
+    <p id="msg" role="status"></p>
+    <button class="alt" id="cetak" type="button">PDF tidak terunduh? Gunakan dialog cetak</button>
+  </div>
+</div>
+</main>
+<script>
+(function(){
+  var $=function(s){return document.querySelector(s);};
+  var nilai=['Redup','Terang','Sangat Terang'];
+  // Tabel 1
+  $('#rows1').innerHTML=[1,2,3].map(function(n){
+    return '<tr><td class="n">'+n+'</td><td data-l="Hasil pengamatan"><select aria-label="Hasil pengamatan '+n+' baterai"><option value="">Pilih hasil…</option>'+
+      nilai.map(function(o){return '<option>'+o+'</option>';}).join('')+'</select></td></tr>';
+  }).join('');
+  // Tabel 2
+  $('#rows2').innerHTML=[1,2,3].map(function(n){
+    return '<tr><td class="n">'+n+'</td>'+
+      '<td data-l="Hasil melalui Virtual Simulation (PhET)"><input type="text" aria-label="Hasil PhET '+n+' baterai"></td>'+
+      '<td data-l="Hasil melalui Praktikum Nyata"><input type="text" aria-label="Hasil praktikum nyata '+n+' baterai"></td></tr>';
+  }).join('');
+  // Pertanyaan
+  var qs=['Bagaimana perubahan nyala lampu ketika jumlah baterai ditambah?',
+    'Apakah hasil simulasi dan percobaan nyata menunjukkan kecenderungan yang sama? Jelaskan.',
+    'Mengapa penambahan jumlah baterai menyebabkan nyala lampu berubah?',
+    'Bagaimana hasil penyelidikan ini dapat menjelaskan mengapa lampu pada perahu nelayan akan tampak redup ketika aki mulai melemah?'];
+  $('#qs').innerHTML=qs.map(function(q,i){
+    return '<div class="q"><p>'+(i+1)+'. '+q+'</p><textarea aria-label="Jawaban '+(i+1)+'" placeholder="Ketik jawabanmu di sini…"></textarea></div>';
+  }).join('');
+  // Area unggah foto + pratinjau (diperkecil agar PDF tidak terlalu berat)
+  function makeUpload(el,label){
+    el.innerHTML='<b>'+label+'</b><label class="pick no-print"><input type="file" accept="image/*">Pilih foto</label><span class="file-name no-print"></span><div class="photo" hidden><img alt="Pratinjau '+label+'"></div>';
+    var inp=el.querySelector('input'),img=el.querySelector('img'),box=el.querySelector('.photo'),nm=el.querySelector('.file-name');
+    inp.addEventListener('change',function(){
+      var f=inp.files&&inp.files[0]; if(!f)return;
+      nm.textContent=f.name;
+      var r=new FileReader();
+      r.onload=function(){
+        var im=new Image();
+        im.onload=function(){
+          var m=1200,s=Math.min(1,m/Math.max(im.width,im.height));
+          var c=document.createElement('canvas');c.width=Math.round(im.width*s);c.height=Math.round(im.height*s);
+          var x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);x.drawImage(im,0,0,c.width,c.height);
+          img.src=c.toDataURL('image/jpeg',.85);box.hidden=false;
+        };
+        im.onerror=function(){nm.textContent='Foto tidak bisa dibaca. Coba foto lain.';};
+        im.src=r.result;
+      };
+      r.readAsDataURL(f);
+    });
+  }
+  makeUpload($('#up1'),'Unggah Foto Bukti Rangkaian Nyata');
+  makeUpload($('#up2'),'Unggah Screenshot Bukti Simulasi Virtual (PhET)');
+  // Upload tanpa foto tidak ditampilkan di PDF
+  function grow(t){t.style.height='auto';t.style.height=Math.max(90,t.scrollHeight+2)+'px';}
+  document.addEventListener('input',function(e){if(e.target.tagName==='TEXTAREA')grow(e.target);});
+
+  var btn=$('#unduh'),msg=$('#msg');
+  function nm(){return $('#nama').value.trim();}
+  function needName(){
+    if(nm())return false;
+    msg.textContent='Isi namamu dulu ya, supaya PDF-nya ada namamu.';
+    $('#nama').focus();return true;
+  }
+  window.addEventListener('beforeprint',function(){
+    document.querySelectorAll('textarea').forEach(grow);
+    document.title='Laporan Praktikum - '+(nm()||'Siswa');
+  });
+  $('#cetak').addEventListener('click',function(){if(needName())return;window.print();});
+  function imagesReady(){
+    return Promise.all([].map.call(document.querySelectorAll('.photo img'),function(i){
+      if(i.closest('[hidden]')||!i.src)return null;
+      return i.complete&&i.naturalWidth?null:new Promise(function(r){i.onload=i.onerror=r;});
+    }));
+  }
+  btn.addEventListener('click',function(){
+    if(needName())return;
+    if(typeof html2pdf==='undefined'){msg.textContent='Pembuat PDF belum termuat. Memakai dialog cetak…';window.print();return;}
+    msg.textContent='Menyiapkan PDF…';btn.disabled=true;window.scrollTo(0,0);
+    var file='Laporan-Praktikum-'+nm().replace(/[^\w\- ]+/g,'').replace(/\s+/g,'-')+'.pdf';
+    imagesReady().then(function(){
+      return html2pdf().set({
+        margin:[10,10,10,10],filename:file,
+        image:{type:'jpeg',quality:.92},
+        html2canvas:{scale:2,useCORS:true,backgroundColor:'#ffffff',scrollX:0,scrollY:0,
+          onclone:function(doc){
+            doc.documentElement.setAttribute('data-theme','light');
+            doc.querySelectorAll('#sheet').forEach(function(s){s.style.cssText+=';padding:0;margin:0;box-shadow:none;border-radius:0;width:100%;max-width:none;';});
+            doc.querySelectorAll('.page').forEach(function(p){p.style.cssText+=';padding:0;margin:0;max-width:none;';});
+            doc.querySelectorAll('.no-print').forEach(function(e){e.style.display='none';});
+            doc.querySelectorAll('.photo[hidden]').forEach(function(e){e.parentNode.style.display='none';});
+            doc.querySelectorAll('.upload').forEach(function(u){u.style.border='2px solid #9cc088';});
+            // isian jadi teks agar tidak terpotong
+            doc.querySelectorAll('select,textarea,#sheet input[type=text]').forEach(function(f){
+              if(f.closest('.id')){
+                var s=doc.createElement('span');s.style.cssText='font-weight:700;display:block;padding:6px 2px;border-bottom:2px solid #9cc088';
+                s.textContent=f.value||'-';f.parentNode.replaceChild(s,f);return;
+              }
+              var v=f.value||(f.tagName==='SELECT'?'(belum dipilih)':(f.tagName==='TEXTAREA'?'(belum diisi)':'-'));
+              var d=doc.createElement('div');d.className='ans';d.textContent=v;
+              d.style.cssText='padding:6px 4px;color:#22301f;min-height:'+(f.tagName==='TEXTAREA'?'50px':'24px')+';'+(f.tagName==='TEXTAREA'?'border:2px solid #9cc088;border-radius:10px;padding:8px 12px':'');
+              f.parentNode.replaceChild(d,f);
+            });
+          }},
+        jsPDF:{unit:'mm',format:[210,297],orientation:'portrait'},
+        pagebreak:{mode:['css','legacy'],avoid:['tr','li','p','h3','.photo','.q','.concl','.sec','.upload']}
+      }).from($('#sheet')).save();
+    }).then(function(){
+      msg.textContent='Selesai! Jika file tidak muncul, pakai tautan cetak di bawah.';
+    }).catch(function(){
+      msg.textContent='PDF gagal dibuat. Gunakan tautan cetak di bawah.';
+    }).then(function(){btn.disabled=false;});
+  });
+})();
+</script>
+</body>
+</html>
