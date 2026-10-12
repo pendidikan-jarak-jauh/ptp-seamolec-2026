@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Prediksi Eksperimen: Baterai dan Lampu</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#f3f8ee; --paper:#ffffff; --text:#25372a; --muted:#5f7564;
+  --green:#c5e1b4; --green-deep:#5f9a4a; --line:#9cc68a; --field:#fbfef9;
+  --shadow:0 4px 14px rgba(70,110,60,.15);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#131c15; --paper:#1c2820; --text:#e7f1e8; --muted:#a8bfac;
+    --green:#35553a; --green-deep:#8cc977; --line:#4d7a50; --field:#142018;
+    --shadow:0 4px 14px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#131c15; --paper:#1c2820; --text:#e7f1e8; --muted:#a8bfac;
+  --green:#35553a; --green-deep:#8cc977; --line:#4d7a50; --field:#142018;
+  --shadow:0 4px 14px rgba(0,0,0,.35);
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);line-height:1.6;
+  font-family:"Trebuchet MS","Segoe UI",system-ui,-apple-system,Arial,sans-serif}
+.page{max-width:900px;margin:0 auto;padding:20px 14px 44px}
+#sheet{background:var(--paper);border-radius:26px;padding:26px;box-shadow:var(--shadow)}
+.id{display:grid;grid-template-columns:2fr 1fr;gap:12px;margin-bottom:22px}
+label.lb{display:block;font-weight:700;font-size:.9rem;color:var(--muted);margin-bottom:4px}
+input[type=text],textarea,select{width:100%;font:inherit;color:var(--text);background:var(--field);
+  border:2px solid var(--line);border-radius:12px;padding:9px 12px;outline:none}
+input[type=text]:focus,textarea:focus,select:focus{border-color:var(--green-deep);box-shadow:0 0 0 3px color-mix(in srgb,var(--green-deep) 30%,transparent)}
+textarea{min-height:96px;resize:vertical}
+.lead{font-style:italic;font-weight:700;margin:0 0 18px;font-size:1.08rem}
+.tbl{width:100%;border-collapse:separate;border-spacing:0;border:2px solid var(--line);border-radius:18px;overflow:hidden}
+.tbl th{background:var(--green);font-weight:800;padding:14px 12px;text-align:center}
+.tbl td{padding:12px;border-top:2px solid var(--line);vertical-align:middle}
+.tbl td+td,.tbl th+th{border-left:2px solid var(--line)}
+.tbl td.n{text-align:center;font-weight:800;font-size:1.3rem;width:130px}
+.tbl td.c2{width:230px}
+.actions{display:flex;flex-direction:column;align-items:center;gap:10px;margin-top:26px}
+.btn{background:var(--green-deep);color:#fff;border:0;border-radius:999px;font:inherit;font-weight:800;
+  font-size:1.2rem;padding:16px 44px;cursor:pointer;width:min(100%,400px);box-shadow:var(--shadow)}
+:root[data-theme="dark"] .btn{color:#10200f}
+.btn[disabled]{opacity:.7;cursor:wait}
+.btn:focus-visible,.alt:focus-visible{outline:3px solid var(--text);outline-offset:3px}
+.alt{background:none;border:0;color:var(--muted);font:inherit;font-size:.85rem;text-decoration:underline;cursor:pointer}
+#msg{margin:0;font-size:.9rem;color:var(--muted);text-align:center;min-height:1.3em}
+.ans{white-space:pre-wrap;word-break:break-word}
+@media (max-width:700px){
+  #sheet{padding:16px;border-radius:20px}
+  .id{grid-template-columns:1fr}
+  .tbl,.tbl tbody,.tbl tr,.tbl td{display:block;width:100%}
+  .tbl{border:0;border-radius:0}
+  .tbl thead{display:none}
+  .tbl tr{border:2px solid var(--line);border-radius:16px;margin-bottom:14px;overflow:hidden}
+  .tbl td,.tbl td+td{border:0;border-top:2px solid var(--line);width:100%!important;text-align:left}
+  .tbl td.n{border-top:0;background:var(--green);font-size:1.1rem;text-align:left}
+  .tbl td.n::before{content:"Jumlah baterai: "}
+  .tbl td[data-l]::before{content:attr(data-l);display:block;font-weight:700;font-size:.85rem;color:var(--muted);margin-bottom:4px}
+}
+@media print{
+  :root{--bg:#fff;--paper:#fff;--text:#000;--muted:#444;--field:#fff;--shadow:none}
+  body{background:#fff}
+  .page{padding:0;max-width:none}
+  #sheet{box-shadow:none;padding:0}
+  .no-print{display:none!important}
+  .tbl tr{break-inside:avoid}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+<main class="page">
+<div id="sheet">
+  <div class="id">
+    <div><label class="lb" for="nama">Nama</label><input type="text" id="nama" placeholder="Tulis namamu" autocomplete="name"></div>
+    <div><label class="lb" for="kelas">Kelas</label><input type="text" id="kelas" placeholder="Contoh: 6A" autocomplete="off"></div>
+  </div>
+
+  <p class="lead">Menurut Ale, apa yang akan terjadi pada nyala lampu jika jumlah baterai ditambah dari 1 menjadi 2, lalu menjadi 3 buah? Tuliskan dugaan Ale beserta alasannya!</p>
+
+  <table class="tbl">
+    <thead><tr><th>Jumlah Baterai</th><th>Dugaan Kondisi Lampu</th><th>Alasan</th></tr></thead>
+    <tbody id="rows"></tbody>
+  </table>
+
+  <div class="actions no-print">
+    <button class="btn" id="unduh" type="button">Unduh Prediksi (PDF)</button>
+    <p id="msg" role="status"></p>
+    <button class="alt" id="cetak" type="button">PDF tidak terunduh? Gunakan dialog cetak</button>
+  </div>
+</div>
+</main>
+<script>
+(function(){
+  var opts=['Normal','Redup','Terang','Lebih Terang','Sangat Terang'];
+  var rows=document.getElementById('rows'), html='';
+  [1,2,3].forEach(function(n){
+    html+='<tr><td class="n">'+n+'</td>'+
+      '<td class="c2" data-l="Dugaan kondisi lampu"><select id="s'+n+'" aria-label="Dugaan kondisi lampu untuk '+n+' baterai"><option value="">Pilih kondisi…</option>'+
+      opts.map(function(o){return '<option>'+o+'</option>';}).join('')+'</select></td>'+
+      '<td data-l="Alasan"><textarea id="a'+n+'" aria-label="Alasan untuk '+n+' baterai" placeholder="Mengapa kamu memprediksikan hal tersebut? Tuliskan alasan atau dugaan awalmu di sini!"></textarea></td></tr>';
+  });
+  rows.innerHTML=html;
+
+  var btn=document.getElementById('unduh'), msg=document.getElementById('msg');
+  function grow(t){t.style.height='auto';t.style.height=Math.max(96,t.scrollHeight+2)+'px';}
+  rows.querySelectorAll('textarea').forEach(function(t){t.addEventListener('input',function(){grow(t)});});
+  function nm(){return document.getElementById('nama').value.trim();}
+  function needName(){
+    if(nm())return false;
+    msg.textContent='Isi namamu dulu ya, supaya PDF-nya ada namamu.';
+    document.getElementById('nama').focus();return true;
+  }
+  window.addEventListener('beforeprint',function(){
+    rows.querySelectorAll('textarea').forEach(grow);
+    document.title='Prediksi - '+(nm()||'Siswa');
+  });
+  document.getElementById('cetak').addEventListener('click',function(){
+    if(needName())return; window.print();
+  });
+  btn.addEventListener('click',function(){
+    if(needName())return;
+    if(typeof html2pdf==='undefined'){msg.textContent='Pembuat PDF belum termuat. Memakai dialog cetak…';window.print();return;}
+    msg.textContent='Menyiapkan PDF…'; btn.disabled=true;
+    var file='Prediksi-'+nm().replace(/[^\w\- ]+/g,'').replace(/\s+/g,'-')+'.pdf';
+    html2pdf().set({
+      margin:[10,10,10,10], filename:file,
+      image:{type:'jpeg',quality:.95},
+      html2canvas:{scale:2,useCORS:true,backgroundColor:'#ffffff',windowWidth:900,
+        onclone:function(doc){
+          doc.documentElement.setAttribute('data-theme','light');
+          doc.querySelectorAll('.no-print').forEach(function(e){e.style.display='none';});
+          // ubah dropdown & textarea jadi teks agar isinya tampil utuh di PDF
+          doc.querySelectorAll('select,textarea').forEach(function(f){
+            var v=f.tagName==='SELECT'?(f.value||'(belum dipilih)'):(f.value||'(belum diisi)');
+            var d=doc.createElement('div');d.className='ans';d.textContent=v;
+            d.style.cssText='padding:6px 4px;color:#25372a;min-height:40px;font-weight:'+(f.tagName==='SELECT'?'700':'400');
+            f.parentNode.replaceChild(d,f);
+          });
+        }},
+      jsPDF:{unit:'mm',format:'a4',orientation:'portrait'},
+      pagebreak:{mode:['css','legacy'],avoid:['tr','.lead']}
+    }).from(document.getElementById('sheet')).save().then(function(){
+      msg.textContent='Selesai! Jika file tidak muncul, pakai tautan cetak di bawah.';
+    }).catch(function(){
+      msg.textContent='PDF gagal dibuat. Gunakan tautan cetak di bawah.';
+    }).then(function(){btn.disabled=false;});
+  });
+})();
+</script>
+</body>
+</html>
