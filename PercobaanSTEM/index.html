@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lembar Pengamatan: Lampu Pintar untuk Perahu Nelayan</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#eef1e6; --paper:#fff; --text:#222b1e; --muted:#5a6650; --title:#2f4770;
+  --bar:#3b7a28; --bar-text:#fff; --bar2:#8a4b22; --yel:#ffc000; --yel-soft:#fff2cc; --yel-text:#222b1e;
+  --line:#9db4d6; --rule:#b7c4a9; --field:#fcfdf9; --drop:#f3f8ec; --shadow:0 4px 14px rgba(50,70,40,.16);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#12170f; --paper:#1b2217; --text:#e9efe4; --muted:#aab79f; --title:#9cbcf0;
+    --bar:#4f9a37; --bar-text:#0d1a09; --bar2:#c98a57; --yel:#d9a400; --yel-soft:#4a3f16; --yel-text:#121208;
+    --line:#5a7396; --rule:#566548; --field:#141a11; --drop:#202a1b; --shadow:0 4px 14px rgba(0,0,0,.4);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#12170f; --paper:#1b2217; --text:#e9efe4; --muted:#aab79f; --title:#9cbcf0;
+  --bar:#4f9a37; --bar-text:#0d1a09; --bar2:#c98a57; --yel:#d9a400; --yel-soft:#4a3f16; --yel-text:#121208;
+  --line:#5a7396; --rule:#566548; --field:#141a11; --drop:#202a1b; --shadow:0 4px 14px rgba(0,0,0,.4);
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);line-height:1.55;
+  font-family:"Trebuchet MS","Segoe UI",system-ui,-apple-system,Arial,sans-serif;font-size:15px}
+.page{max-width:860px;margin:0 auto;padding:18px 12px 44px}
+#sheet{background:var(--paper);padding:30px 32px;box-shadow:var(--shadow);border-radius:6px}
+h1{margin:0;text-align:center;color:var(--title);font-size:1.7rem;letter-spacing:.02em}
+.sub{text-align:center;font-weight:800;margin:8px 0 2px;font-size:1.05rem}
+.sub2{text-align:center;font-style:italic;color:var(--muted);margin:0 0 12px;font-size:.9rem;padding-bottom:10px;border-bottom:2px solid var(--title)}
+.ident{display:grid;grid-template-columns:2fr 1fr 1.4fr;gap:12px;margin:12px 0}
+label.lb,.q>label,.lbl{display:block;font-weight:700;margin-bottom:4px}
+input[type=text],input[type=date],textarea,select{width:100%;font:inherit;color:var(--text);background:var(--field);
+  border:1.5px solid var(--rule);border-radius:6px;padding:7px 10px;outline:none}
+input:focus-visible,textarea:focus-visible,select:focus-visible{border-color:var(--bar);box-shadow:0 0 0 3px color-mix(in srgb,var(--bar) 30%,transparent)}
+textarea{min-height:84px;resize:vertical}
+.intro{margin:10px 0 16px}
+.bar{background:var(--bar);color:var(--bar-text);font-weight:800;padding:7px 14px;margin:24px 0 14px;border:1px solid var(--bar)}
+.bar.b2{background:var(--bar2);border-color:var(--bar2);color:#fff}
+.tbl{width:100%;border-collapse:collapse;margin:8px 0 16px}
+.tbl th{background:var(--yel);color:var(--yel-text);font-weight:800;padding:10px;border:1px solid var(--line);text-align:center}
+.tbl td{padding:8px;border:1px solid var(--line);vertical-align:middle}
+.tbl td.lab{background:var(--yel-soft);font-weight:700;width:30%}
+.q{margin:0 0 14px}
+.opts{display:flex;flex-wrap:wrap;gap:6px 18px;align-items:center;margin:6px 0 12px}
+.opt{display:inline-flex;align-items:center;gap:7px;cursor:pointer}
+.opt input{width:18px;height:18px;accent-color:var(--bar)}
+.checks{display:grid;gap:8px;margin:6px 0 14px}
+.evalr{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;border-bottom:1px dashed var(--rule);padding:6px 0}
+.upload{background:var(--drop);border:2px dashed var(--rule);border-radius:10px;padding:14px 16px;margin:10px 0 16px}
+.upload.big{border-color:var(--bar);border-width:3px}
+.upload>b{display:block;margin-bottom:8px}
+.pick{display:inline-block;background:var(--bar);color:var(--bar-text);font-weight:700;border-radius:999px;padding:9px 20px;cursor:pointer}
+.pick input{position:absolute;opacity:0;width:1px;height:1px}
+.pick:focus-within{outline:3px solid var(--text);outline-offset:2px}
+.fn{margin-left:10px;font-size:.85rem;color:var(--muted)}
+.photo{margin-top:12px}
+.photo img{display:block;max-width:100%;max-height:340px;border:2px solid var(--line);object-fit:contain;background:#fff;margin:0 auto}
+.big .photo img{max-height:480px}
+.actions{display:flex;flex-direction:column;align-items:center;gap:10px;margin-top:30px}
+.btn{background:var(--bar);color:var(--bar-text);border:0;border-radius:999px;font:inherit;font-weight:800;font-size:1.15rem;padding:16px 34px;cursor:pointer;width:min(100%,460px);box-shadow:var(--shadow)}
+.btn[disabled]{opacity:.7;cursor:wait}
+.btn:focus-visible,.alt:focus-visible{outline:3px solid var(--text);outline-offset:3px}
+.alt{background:none;border:0;color:var(--muted);font:inherit;font-size:.85rem;text-decoration:underline;cursor:pointer}
+#msg{margin:0;font-size:.9rem;color:var(--muted);text-align:center;min-height:1.3em}
+.ans{white-space:pre-wrap;word-break:break-word}
+@media (max-width:700px){
+  #sheet{padding:18px 14px}
+  .ident{grid-template-columns:1fr}
+  .tbl,.tbl tbody,.tbl tr,.tbl td{display:block;width:100%}
+  .tbl thead{display:none}
+  .tbl tr{border:1px solid var(--line);margin-bottom:12px}
+  .tbl td{border:0;border-top:1px solid var(--line);width:100%!important}
+  .tbl td.lab{border-top:0}
+  .tbl td[data-l]::before{content:attr(data-l);display:block;font-weight:700;font-size:.82rem;color:var(--muted);margin-bottom:3px}
+}
+@page{size:A4 portrait;margin:10mm}
+@media print{
+  :root{--bg:#fff;--paper:#fff;--text:#000;--muted:#444;--field:#fff;--drop:#fff;--shadow:none}
+  body{background:#fff}
+  .page{padding:0;max-width:none}
+  #sheet{box-shadow:none;padding:0}
+  .no-print{display:none!important}
+  .tbl tr,.photo,.q,.evalr{break-inside:avoid}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+<main class="page">
+<div id="sheet">
+  <h1>LEMBAR PENGAMATAN</h1>
+  <p class="sub">Lampu Pintar untuk Perahu Nelayan Maluku Tengah</p>
+  <p class="sub2">Projek STEM Kontekstual — Arus, Tegangan, Hambatan, dan Hukum Ohm</p>
+  <div class="ident">
+    <div><label class="lb" for="nama">Nama</label><input type="text" id="nama" placeholder="Tulis namamu" autocomplete="name"></div>
+    <div><label class="lb" for="kelas">Kelas</label><input type="text" id="kelas" placeholder="Contoh: 6A" autocomplete="off"></div>
+    <div><label class="lb" for="tgl">Tanggal Pelaksanaan</label><input type="date" id="tgl"></div>
+  </div>
+  <p class="intro">Gunakan lembar ini untuk mencatat setiap pengamatan, hasil percobaan, dan refleksi Ale selama mengerjakan projek “Lampu Pintar untuk Perahu Nelayan”, dari Tahap 1 sampai Tahap 6.</p>
+  <div id="body"></div>
+  <div class="actions no-print">
+    <button class="btn" id="unduh" type="button">Unduh Lembar Pengamatan (PDF)</button>
+    <p id="msg" role="status"></p>
+    <button class="alt" id="cetak" type="button">PDF tidak terunduh? Gunakan dialog cetak</button>
+  </div>
+</div>
+</main>
+<script>
+(function(){
+  var $=function(s){return document.querySelector(s);}, n=0;
+  var uid=function(){return 'f'+(++n);};
+  var ta=function(q){var i=uid();return '<div class="q"><label for="'+i+'">'+q+'</label><textarea id="'+i+'" placeholder="Ketik jawabanmu di sini…"></textarea></div>';};
+  var inp=function(a){return '<input type="text" aria-label="'+a+'">';};
+  var sel=function(o,a){return '<select aria-label="'+a+'"><option value="">Pilih…</option>'+o.map(function(x){return '<option>'+x+'</option>';}).join('')+'</select>';};
+  var bar=function(t,c){return '<div class="bar '+(c||'')+'">'+t+'</div>';};
+  var tbl=function(h,rows){
+    return '<table class="tbl"><thead><tr>'+h.map(function(x){return '<th>'+x+'</th>';}).join('')+'</tr></thead><tbody>'+
+      rows.map(function(r){return '<tr>'+r.map(function(c,j){return j?'<td data-l="'+h[j]+'">'+c+'</td>':'<td class="lab">'+c+'</td>';}).join('')+'</tr>';}).join('')+'</tbody></table>';
+  };
+  var radios=function(name,o){return o.map(function(x){return '<label class="opt"><input type="radio" name="'+name+'" value="'+x+'">'+x+'</label>';}).join('');};
+  var up=function(l,c){return '<div class="upload '+(c||'')+'"><b>'+l+'</b><label class="pick no-print"><input type="file" accept="image/*">Pilih foto</label><span class="fn no-print"></span><div class="photo" hidden><img alt="Pratinjau"></div></div>';};
+  var lamp=['Mati','Redup','Terang','Sangat Terang'];
+  var h='';
+  h+=bar('Tahap 1 Mengamati dan Mencari Ide');
+  h+='<p class="lbl">Pengamatan lampu di sekitar rumah/lingkungan pesisir:</p>';
+  h+=tbl(['Tempat/Objek yang Diamati','Jenis Lampu','Kondisi (terang/redup)'],
+    ['Lampu perahu nelayan','Lampu rumah','Lampu saat listrik redup'].map(function(t){return [t,inp('Jenis lampu '+t),sel(['Terang','Redup','Mati'],'Kondisi '+t)];}));
+  h+=ta('Mengapa nelayan membutuhkan lampu?')+ta('Mengapa lampu harus hemat energi?')+ta('Bagaimana agar lampu tetap terang meskipun sumber listrik terbatas?')+ta('Ide awal Ale untuk rancangan lampu:');
+
+  h+=bar('Tahap 2 Membuat Rancangan');
+  h+=up('Gambar rancangan miniatur lampu Ale');
+  h+='<p class="lbl">Sumber listrik yang dipilih:</p><div class="opts">'+radios('baterai',['1 baterai','2 baterai','3 baterai'])+'</div>';
+  h+=ta('Alasan pemilihan baterai:');
+
+  h+=bar('Tahap 3 Membuat Rangkaian');
+  h+='<p class="lbl">Centang tahapan perakitan yang sudah dilakukan:</p><div class="checks">'+
+    ['Ujung kabel disambungkan ke salah satu kutub baterai','Kabel disambungkan ke salah satu bagian lampu','Bagian lampu yang lain disambungkan ke kabel berikutnya','Kabel terakhir disambungkan ke kutub baterai yang lain','Rangkaian diuji dan lampu menyala'].map(function(t){return '<label class="opt"><input type="checkbox" value="'+t+'">'+t+'</label>';}).join('')+'</div>';
+  h+=tbl(['Jumlah Baterai','Kondisi Nyala Lampu','Catatan Tambahan'],
+    ['1 baterai','2 baterai','3 baterai'].map(function(t){return [t,sel(lamp,'Kondisi lampu '+t),inp('Catatan '+t)];}));
+
+  h+=bar('Tahap 4 Menguji Hambatan');
+  h+=tbl(['Bahan yang Diuji','Kondisi Nyala Lampu','Kesimpulan'],
+    ['Penjepit kertas','Isi pensil (grafit)','Aluminium foil','Sendok logam'].map(function(t){return [t,sel(lamp,'Kondisi lampu '+t),sel(['Hambatan tinggi','Hambatan rendah'],'Kesimpulan '+t)];}));
+  h+=ta('Bahan manakah yang membuat lampu paling terang? Mengapa?')+ta('Bahan manakah yang membuat lampu paling redup/mati? Mengapa?');
+
+  h+=bar('Tahap 5 Mendesain Miniatur Perahu');
+  h+=ta('Bahan yang digunakan untuk miniatur perahu:')+ta('Elemen dekorasi khas Maluku Tengah yang ditambahkan:');
+
+  h+=bar('Tahap 6 Evaluasi, Perbaikan, dan Hasil Karya');
+  h+='<p class="lbl">Evaluasi:</p>'+['Lampu menyala terang?','Rangkaian bekerja dengan baik?','Baterai cepat habis?','Ada kabel yang longgar?'].map(function(q,i){
+    return '<div class="evalr"><span>'+q+'</span><span class="opts" style="margin:0">'+radios('ev'+i,['Ya','Tidak'])+'</span></div>';}).join('');
+  h+='<div style="height:14px"></div>'+ta('Kekurangan yang ditemukan (jika ada):')+ta('Perbaikan yang dilakukan:');
+  h+=up('Unggah Foto Hasil Karya Akhir (Miniatur Perahu Lampu Pintar yang Sudah Menyala)','big');
+
+  h+=bar('Kesimpulan Akhir','b2');
+  h+=ta('Apa yang Ale pelajari tentang hubungan arus listrik, tegangan, dan hambatan dari projek ini?')+ta('Bagaimana solusi lampu ini dapat membantu nelayan di Maluku Tengah?');
+  $('#body').innerHTML=h;
+
+  // Pratinjau foto (FileReader), diperkecil agar PDF tidak berat
+  document.querySelectorAll('.upload').forEach(function(el){
+    var inpf=el.querySelector('input'),img=el.querySelector('img'),box=el.querySelector('.photo'),fn=el.querySelector('.fn');
+    inpf.addEventListener('change',function(){
+      var f=inpf.files&&inpf.files[0];if(!f)return;fn.textContent=f.name;
+      var r=new FileReader();
+      r.onload=function(){
+        var im=new Image();
+        im.onload=function(){
+          var s=Math.min(1,1400/Math.max(im.width,im.height)),c=document.createElement('canvas');
+          c.width=Math.round(im.width*s);c.height=Math.round(im.height*s);
+          var x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);x.drawImage(im,0,0,c.width,c.height);
+          img.src=c.toDataURL('image/jpeg',.85);box.hidden=false;
+        };
+        im.onerror=function(){fn.textContent='Foto tidak bisa dibaca. Coba foto lain.';};
+        im.src=r.result;
+      };
+      r.readAsDataURL(f);
+    });
+  });
+  function grow(t){t.style.height='auto';t.style.height=Math.max(84,t.scrollHeight+2)+'px';}
+  document.addEventListener('input',function(e){if(e.target.tagName==='TEXTAREA')grow(e.target);});
+
+  var btn=$('#unduh'),msg=$('#msg');
+  function nm(){return $('#nama').value.trim();}
+  function needName(){
+    if(nm())return false;
+    msg.textContent='Isi namamu dulu ya, supaya PDF-nya ada namamu.';$('#nama').focus();return true;
+  }
+  // Salin isian ke atribut HTML supaya ikut terbawa ke salinan yang dirender
+  function sync(){
+    document.querySelectorAll('#sheet input').forEach(function(i){
+      if(i.type==='file')return;
+      if(i.type==='radio'||i.type==='checkbox'){i.checked?i.setAttribute('checked',''):i.removeAttribute('checked');}
+      else i.setAttribute('value',i.value);
+    });
+    document.querySelectorAll('#sheet textarea').forEach(function(t){t.textContent=t.value;});
+    document.querySelectorAll('#sheet select').forEach(function(s){
+      [].forEach.call(s.options,function(o,k){k===s.selectedIndex?o.setAttribute('selected',''):o.removeAttribute('selected');});
+    });
+  }
+  window.addEventListener('beforeprint',function(){
+    document.querySelectorAll('textarea').forEach(grow);
+    document.title='Lembar Pengamatan - '+(nm()||'Siswa');
+  });
+  $('#cetak').addEventListener('click',function(){if(needName())return;window.print();});
+  function imagesReady(){
+    return Promise.all([].map.call(document.querySelectorAll('.photo img'),function(i){
+      if(i.closest('[hidden]')||!i.src)return null;
+      return i.complete&&i.naturalWidth?null:new Promise(function(r){i.onload=i.onerror=r;});
+    }));
+  }
+  btn.addEventListener('click',function(){
+    if(needName())return;
+    if(typeof html2pdf==='undefined'){msg.textContent='Pembuat PDF belum termuat. Memakai dialog cetak…';window.print();return;}
+    msg.textContent='Menyiapkan PDF…';btn.disabled=true;window.scrollTo(0,0);sync();
+    var file='Lembar-Pengamatan-'+nm().replace(/[^\w\- ]+/g,'').replace(/\s+/g,'-')+'.pdf';
+    imagesReady().then(function(){
+      return html2pdf().set({
+        margin:10,filename:file,
+        image:{type:'jpeg',quality:.92},
+        html2canvas:{scale:2,useCORS:true,backgroundColor:'#ffffff',scrollX:0,scrollY:0,
+          onclone:function(doc){
+            doc.documentElement.setAttribute('data-theme','light');
+            doc.querySelectorAll('.no-print').forEach(function(e){e.style.display='none';});
+            doc.querySelectorAll('.photo[hidden]').forEach(function(e){e.style.display='none';});
+            doc.querySelectorAll('#sheet').forEach(function(s){s.style.cssText+=';padding:0;margin:0;box-shadow:none;border-radius:0;width:100%;max-width:none;';});
+            doc.querySelectorAll('.page').forEach(function(p){p.style.cssText+=';padding:0;margin:0;max-width:none;';});
+            doc.querySelectorAll('#sheet input,#sheet select,#sheet textarea').forEach(function(f){
+              if(f.type==='file')return;
+              var t=doc.createElement(f.type==='radio'||f.type==='checkbox'?'span':'div');
+              if(f.type==='radio'){t.textContent=f.checked?'\u25C9':'\u25CB';t.style.cssText='font-size:18px;line-height:1';}
+              else if(f.type==='checkbox'){t.textContent=f.checked?'\u2611':'\u2610';t.style.cssText='font-size:20px;line-height:1';}
+              else{
+                var tag=f.tagName,v=f.value;
+                if(tag==='SELECT')v=v||'(belum dipilih)';else if(!v)v=tag==='TEXTAREA'?'(belum diisi)':'-';
+                t.className='ans';t.textContent=v;
+                t.style.cssText='padding:6px 4px;color:#222b1e;border-bottom:1.5px solid #b7c4a9;min-height:'+(tag==='TEXTAREA'?'56px':'22px')+(tag==='SELECT'?';font-weight:700':'');
+              }
+              f.parentNode.replaceChild(t,f);
+            });
+          }},
+        jsPDF:{unit:'mm',format:'a4',orientation:'portrait'},
+        pagebreak:{mode:['css','legacy'],avoid:['tr','li','p','.q','.evalr','.photo','.bar','.opt','.upload']}
+      }).from($('#sheet')).save();
+    }).then(function(){
+      msg.textContent='Selesai! Jika file tidak muncul, pakai tautan cetak di bawah.';
+    }).catch(function(){
+      msg.textContent='PDF gagal dibuat. Gunakan tautan cetak di bawah.';
+    }).then(function(){btn.disabled=false;});
+  });
+})();
+</script>
+</body>
+</html>
