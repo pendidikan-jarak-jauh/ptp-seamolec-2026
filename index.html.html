@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>H. Evaluasi Akhir Topik - Modul IPA</title>
+    
+    <!-- Memanggil file CSS eksternal -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- AREA MENU UTAMA -->
+    <div id="mainMenu">
+        <div class="eval-header">
+            <h1>📝 H. Evaluasi Akhir Topik 🎯</h1>
+            <p>Uji pemahamanmu tentang Arus Listrik dan Hukum Ohm!</p>
+        </div>
+
+        <div class="eval-container">
+            <div class="eval-card" onclick="mulaiKuis('pg')">
+                <div class="icon-box float-anim">🔘</div>
+                <h3>Post-Test Pilihan Ganda</h3>
+                <div class="badges">
+                    <span class="badge">20 Soal</span>
+                    <span class="badge skor">Skor Maks: 100</span>
+                </div>
+                <p>Sistem akan menilai otomatis dan memberikan pembahasan di akhir.</p>
+            </div>
+
+            <div class="eval-card" onclick="mulaiKuis('esai')">
+                <div class="icon-box float-anim">💡</div>
+                <h3>Esai HOTS Kontekstual</h3>
+                <div class="badges">
+                    <span class="badge">10 Soal</span>
+                    <span class="badge skor">Skor Maks: 100</span>
+                </div>
+                <p>Jawab studi kasus dan gunakan fitur Cek Kunci Jawaban mandiri.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- AREA KUIS PILIHAN GANDA -->
+    <div id="quizPGArea" style="display: none;">
+        <div class="eval-header" style="margin-bottom: 1rem; padding: 1rem;">
+            <h2 id="qNumber" style="color:var(--primary); margin:0;">Soal 1 / 20</h2>
+        </div>
+        <div class="quiz-body" id="quizContainer">
+            <p id="qText" class="soal-teks">Pertanyaan...</p>
+            <div id="optionsContainer"></div>
+        </div>
+        <div class="quiz-footer">
+            <button id="nextBtn" class="btn-action" onclick="soalSelanjutnya()" style="display: none;">Selanjutnya ➡️</button>
+        </div>
+    </div>
+
+    <!-- AREA HASIL PILIHAN GANDA -->
+    <div id="resultPGArea" style="display: none;">
+        <div class="eval-header">
+            <h1>🎯 Hasil Post-Test</h1>
+            <p>Skor Akhir Kamu:</p>
+            <div id="finalScore" class="glow-score">0</div>
+        </div>
+        <div id="reviewContainer" class="review-box"></div>
+        <button class="btn-action" onclick="kembaliKeMenu()" style="margin: 20px auto;">Kembali ke Menu Awal 🏠</button>
+    </div>
+
+    <!-- AREA ESAI HOTS -->
+    <div id="esaiArea" style="display: none;">
+        <div class="eval-header" style="margin-bottom: 1rem; padding: 1rem;">
+            <h2 style="color:var(--primary); margin:0;">💡 10 Esai HOTS Kontekstual</h2>
+            <p>Ketik jawabanmu, lalu klik "Cek Pedoman" untuk evaluasi mandiri.</p>
+        </div>
+        <div id="esaiContainer"></div>
+        <button class="btn-action" onclick="kembaliKeMenu()" style="margin: 20px auto;">Selesai & Kembali 🏠</button>
+    </div>
+
+    <!-- Memanggil file JavaScript eksternal (Diletakkan di bawah sebelum tag </body>) -->
+    <script src="gemini.js"></script>
+
+</body>
+</html>
